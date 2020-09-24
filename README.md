@@ -7,11 +7,11 @@ The dlcheck is used to find the good(200 response status code), dead(404 and 400
 
 Install:
 
-NodeJs is required for installation, in the cli, run the command npm install dlcheck -g in order to install the npm package for this tool, the -g commandline argument must be used to install this tool globally on the system.
+NodeJs is required for installation, in the CLI, run the command npm install dlcheck -g in order to install the npm package for this tool, the -g commandline argument must be used to install this tool globally on the system.
 
 How to use this tool:
 
-in the command line, use the dlcheck command along with a parameter that is the file name to test the links contained in that file. IE. dlcheck FILENAME.txt or dlcheck FILENAME.html.
+in the CLI, use the dlcheck command along with a parameter that is the file name to test the links contained in that file. IE. dlcheck FILENAME.txt or dlcheck FILENAME.html.
 
 Additional features:
 
