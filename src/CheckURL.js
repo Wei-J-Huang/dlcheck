@@ -27,7 +27,7 @@ if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first 
             links = [...new Set(links)];                    //Avoid duplicate values
             console.log("Found " + links.length + "URLs in total.");
             links.forEach(url =>{                           //display status for each url
-                request.get({uri:url, agent:false, pool:{maxSockets: 300}, timeout:10000}, function(error, response, body){ //making get request
+                request.get({uri:url, agent:false, pool:{maxSockets: 300}, timeout:10000}, (error, response, body)=>{ //making get request
                     if(error){
                         console.log(chalk.blue(url + " " + error.message))
                     }else if(response.statusCode == 200){
