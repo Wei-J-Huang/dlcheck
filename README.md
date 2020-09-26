@@ -12,6 +12,7 @@ NodeJs is required for installation, in the CLI, run the command npm install dlc
 # How to Use This Tool:
 
 in the CLI, use the dlcheck command along with a parameter that is the file name to test the links contained in that file. IE. dlcheck FILENAME.txt or dlcheck FILENAME.html.
+Using command dlcheck without an argument will display the parameter options in CLI.
 
 # Additional Features:
 
