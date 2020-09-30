@@ -4,6 +4,7 @@ const request = require('request');         //module used for making GET reqeust
 const chalk = require('chalk');             //module used for output colors
 const args = process.argv.slice(2);         //using slice function to get rid of the 2 default args
 const urlRegex = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,10}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g); //RegEx to extract urls
+const pJson = require('../package.json');
 
 if(args.length == 0){                       //displaying parameter options if no parameter is used
     missingParams();
@@ -11,7 +12,11 @@ if(args.length == 0){                       //displaying parameter options if no
 }
 
 if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first argument    
-    unknownArg();    
+    if(args[0] === "--v" || args[0] === "--version" || args[0] === "/v" || args[0] === "/version"){
+        version();
+    }else{
+        unknownArg();
+    }
     return process.exit(0);
 }else{                                                      //if first argument is not a tool parameter(ie. starts with -- or /), assume it's a file name
     fs.readFile(args[0], (err, data) =>{
@@ -39,6 +44,10 @@ if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first 
     })
 }
 
+function version(){
+    console.log("App: Dead Link Checker");
+    console.log(`Ver: ${pJson.version}`);   
+}
 
 
 function missingParams(){
@@ -51,3 +60,4 @@ function unknownArg(){
     console.log("Invalid Command");
     console.log("Use \"npm show dlcheck version\" or \"npm view dlcheck version\" to check for the current version of app")
 }
+
