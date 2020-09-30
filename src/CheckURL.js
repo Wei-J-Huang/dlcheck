@@ -10,12 +10,8 @@ if(args.length == 0){                       //displaying parameter options if no
     return process.exit(0);
 }
 
-if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first argument
-    if(args[0] === "--v" || args[0] === "--version" || args[0] === "/v" || args[0] === "/version"){
-        version();
-    }else{
-        unknownArg();
-    }
+if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first argument    
+    unknownArg();    
     return process.exit(0);
 }else{                                                      //if first argument is not a tool parameter(ie. starts with -- or /), assume it's a file name
     fs.readFile(args[0], (err, data) =>{
@@ -43,18 +39,15 @@ if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first 
     })
 }
 
-function version(){
-    console.log("App: Dead Link Checker");
-    console.log("Ver: 1.0.0");
-}
+
 
 function missingParams(){
     console.log("Missing parameters:");
-    console.log("(-v, -version, /v, /version to check current version).");
+    console.log("(\"npm show dlcheck version\" or \"npm view dlcheck version\" to check current version).");
     console.log("(check FILENAME to test links in file.)");
 }
 
 function unknownArg(){
     console.log("Invalid Command");
-    console.log("Use --v to check for the current version of app")
+    console.log("Use \"npm show dlcheck version\" or \"npm view dlcheck version\" to check for the current version of app")
 }
