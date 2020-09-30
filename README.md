@@ -18,4 +18,4 @@ Using command dlcheck without an argument will display the parameter options in 
 
 After checking the status of links, the urls are displayed back to the user in the commandline in different colours, the good ones in green, bad ones in red, timeouts in blue and unkown ones in grey.
 
-Users may use the npm version check feature to view the current installed dlcheck. `npm view dlcheck version` or `npm show dlcheck version`
+Users may use the dlcheck command with paramers of `--v, --version, /v or /version` to check the current installed version of the tool.

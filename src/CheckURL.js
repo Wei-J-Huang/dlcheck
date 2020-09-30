@@ -52,12 +52,11 @@ function version(){
 
 function missingParams(){
     console.log("Missing parameters:");
-    console.log("(\"npm show dlcheck version\" or \"npm view dlcheck version\" to check current version).");
+    console.log("(-v, -version, /v, /version to check current version).");    
     console.log("(check FILENAME to test links in file.)");
 }
 
 function unknownArg(){
     console.log("Invalid Command");
-    console.log("Use \"npm show dlcheck version\" or \"npm view dlcheck version\" to check for the current version of app")
-}
+    console.log("(-v, -version, /v, /version to check current version).");}
 
