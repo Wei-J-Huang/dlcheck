@@ -18,4 +18,6 @@ Using command "dlcheck" without an argument will display the parameter options i
 
 After checking the status of links, the urls are displayed back to the user in the commandline in different colours, the good ones in green, bad ones in red, timeouts in blue and unkown ones in grey.
 
-Users may use the "dlcheck" command with paramers of ("--v", "--version", "/v" or "/version") to check the current installed version of the tool.
+Users may use the dlcheck command with paramers of (--v, --version, /v or /version) to check the current installed version of the tool.
+
+The tool allows for multiple file to be checked. 
