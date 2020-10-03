@@ -18,9 +18,8 @@ if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first 
     }
     return process.exit(0);
 }else{                                                      //if first argument is not a tool parameter(ie. starts with -- or /), assume it's a file name
-    console.log(args)
-    args.map(file =>
-        fs.readFile(args[0], (err, data) => {
+    args.map(arg =>
+        fs.readFile(arg, (err, data) => {
             if (err) {                                          //file error condition
                 console.log(err.message);
             } else {                                              //read file
