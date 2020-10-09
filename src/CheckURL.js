@@ -1,9 +1,14 @@
 #!/usr/bin/env node
+require('dotenv').config();
 const fs = require('fs');                   //used for file reading
 const request = require('request');         //module used for making GET reqeusts for status code response
 const chalk = require('chalk');             //module used for output colors
 const args = process.argv.slice(2);         //using slice function to get rid of the 2 default args
 const regex = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,10}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g); //RegEx to extract urls
+
+if(process.env.CLICOLOR == 0){
+    chalk.level = 0;
+}
 
 if(args.length == 0){                       //displaying parameter options if no parameter is used
     missingParams();
