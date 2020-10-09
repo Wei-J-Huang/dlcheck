@@ -10,40 +10,64 @@ if(args.length == 0){                       //displaying parameter options if no
     return process.exit(0);
 }
 
-if(args[0].startsWith("--") || args[0].startsWith("/")){    //checking if first argument
+var filter = "--all";                       //default filter
+
+if(args[0].startsWith("--") || args[0].startsWith("/")){
     if(args[0] === "--v" || args[0] === "--version" || args[0] === "/v" || args[0] === "/version"){
         version();
-    }else{
+    }else if(args[0] === "--good" || args[0] === "--bad" || args[0] === "--all" || args[0] === "/good" || args[0] === "/bad" || args[0] === "/all"){                                                      //if first argument is not a tool parameter(ie. starts with -- or /), assume it's a file name
+        filter = args[0];
+        args.shift();
+        args.map(arg =>{
+            displayUrl(arg, filter);
+        })
+    }
+    else{
         unknownArg();
     }
-    return process.exit(0);
-}else{                                                      //if first argument is not a tool parameter(ie. starts with -- or /), assume it's a file name
-    args.map(arg =>
-        fs.readFile(arg, (err, data) => {
-            if (err) {                                          //file error condition
-                console.log(err.message);
-            } else {                                              //read file
-                var content = data.toString();                  //convert the content of file to string
-                var links = content.match(regex);               //extract url using RegEX
-                links = [...new Set(links)];                    //Avoid duplicate values
-                console.log("Found " + links.length + "URLs in total.");
-                links.forEach(url => {                           //display status for each url
-                    request.get({ uri: url, agent: false, pool: { maxSockets: 300 }, timeout: 10000 }, function (error, response, body) { //making get request
+}else{
+    args.map(arg=>{
+        displayUrl(arg, filter);
+    })
+}
+
+function displayUrl(file, filterKey){
+    fs.readFile(file, (err, data) => {
+        if (err) {                                          //file error condition
+            console.log(err.message);
+        } else {                                              //read file
+            var content = data.toString();                  //convert the content of file to string
+            var links = content.match(regex);               //extract url using RegEX
+            links = [...new Set(links)];                    //Avoid duplicate values
+            console.log("Found " + links.length + "Total URLs in the file.");
+            for(let i = 0; i < links.length; i++){                          //display status for each url
+                request.get({ uri: links[i], agent: false, pool: { maxSockets: 300 }, timeout: 10000 }, function (error, response, body) { //making get request
+                    if(filterKey === "--all"){                                      //filter by all
                         if (error) {
-                            console.log(chalk.blue(url + " " + error.message))
+                            console.log(chalk.blue(links[i] + " " + error.message))
                         } else if (response.statusCode == 200) {
-                            console.log(chalk.green(url + " status code: [200], server is online."))
+                            console.log(chalk.green(links[i]+ " [status code: " + response.statusCode + "], server is online."))
                         } else if (response.statusCode == 400 || response.statusCode == 404) {
-                            console.log(chalk.red(url + " status code: [400/404], this is a broken link."))
+                            console.log(chalk.red(links[i]+ " [status code: " + response.statusCode + "], this is a broken link."))
                         } else {
-                            console.log(chalk.gray(url + " status is unkown."))
+                            console.log(chalk.gray(links[i]+ " [status code: " + response.statusCode + "], status is unknown."))
                         }
-                    })
+                    }else if(filterKey === "--good"){                               //filter by good links
+                        if (!error && response.statusCode == 200) {
+                            console.log(chalk.green(links[i]+ " [status code: " + response.statusCode + "], server is online."))
+                        }
+                    }else if(filterKey === "--bad"){                                //filter by bad links
+                        if (!error && (response.statusCode == 400 || response.statusCode == 404)) {
+                            console.log(chalk.red(links[i]+ " [status code: " + response.statusCode + "], this is a broken link."))
+                        }
+                    }
                 })
             }
-        })
-    )
-}
+        }
+    }
+)}
+
+
 
 function version(){
     console.log("App: Dead Link Checker");
@@ -59,4 +83,5 @@ function missingParams(){
 function unknownArg(){
     console.log("Invalid Command");
     console.log("Use --v to check for the current version of app")
+    console.log("Use --all, --good, --bad followed by file name(s) to filter the URLs")
 }
