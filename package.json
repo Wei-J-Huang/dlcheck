@@ -1,9 +1,9 @@
 {
   "name": "dlcheck",
-  "bin": "./src/CheckURL.js",
+  "bin": "./src/index.js",
   "version": "1.0.1",
   "description": "",
-  "main": "./src/CheckURL.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
     "request": "^2.88.2"
   }
 }
