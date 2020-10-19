@@ -24,4 +24,6 @@ The tool allows for multiple file to be checked.
 
 ```--all, --good, --bad, /all, /good, /bad``` arguments may be used to filter the URLs by their status code, IE: ```dlcheck --good filename```.
 
+```--ignore, --i, /ignore, /i``` arguments allows dlcheck to take in a file that contains a list of links to be filtered out, IE: ```dlcheck --ignore IgnoreList.txt Urls.txt```
+
 Tool supports ```CLICOLOR``` environment variable, allowing colored output when ```CLICOLOR``` is set to 1 and disable colored output when ```CLICOLOR``` is set to 0.
