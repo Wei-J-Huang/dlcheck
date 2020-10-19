@@ -111,10 +111,11 @@ function getIgnore(args, filterKey){
                         ignore[i] = e.replace(/(\r\n|\n|\r)/gm, "");
                         i++;
                     }
-                    else if (!e.startsWith('#')) {
+                    else if (!e.startsWith('#') && e != "") {
                         badIgnore();
                     }
                 })
+                console.log(ignore);
                 resolve(ignore);
             }
         });
