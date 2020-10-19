@@ -105,7 +105,6 @@ function getIgnore(args, filterKey){
                 var ignoreList = (data + "").split('\n');
                 var ignore = [];
                 var i = 0;
-                console.log(ignoreList);
                 ignoreList.forEach(e => {
                     if (e.startsWith("https://") || e.startsWith("http://")) {
                         ignore[i] = e.replace(/(\r\n|\n|\r)/gm, "");
@@ -115,7 +114,6 @@ function getIgnore(args, filterKey){
                         badIgnore();
                     }
                 })
-                console.log(ignore);
                 resolve(ignore);
             }
         });
