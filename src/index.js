@@ -151,6 +151,6 @@ function unknownArg() {
 }
 
 function badIgnore(){
-    console.log(chalk.red("File contains URLs that doesn't use http:// or https://"));
+    console.log(chalk.red("Ignore file contains Invalid lines, make sure each line starts with https/http or #"));
     process.exit(1);
 }
