@@ -27,7 +27,7 @@ if (args[0].startsWith("--") || args[0].startsWith("/")) {
             displayUrl(arg, filter);
         })
     }
-    else if (args[0] == "--ignore" || args[0] == "--i") {
+    else if (args[0] == "--ignore" || args[0] == "--i" || args[0] == "/ignore" || args[0] == "/i") {
         args.shift();
         getIgnore(args, filter);
     }
@@ -140,12 +140,15 @@ function missingParams() {
     console.log("Missing parameters:");
     console.log("(-v, -version, /v, /version to check current version).");
     console.log("(check FILENAME to test links in file.)");
+    console.log("Use --all, --good, --bad followed by file name(s) to filter the URLs")
+    console.log("Use --ignore or --i to take in Urls to ignore")
 }
 
 function unknownArg() {
     console.log("Invalid Command");
     console.log("Use --v to check for the current version of app")
     console.log("Use --all, --good, --bad followed by file name(s) to filter the URLs")
+    console.log("Use --ignore or --i to take in Urls to ignore")
 }
 
 function badIgnore(){
