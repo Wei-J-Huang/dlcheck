@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 require('dotenv').config();
+let displayMessage = require('./displayMessage.js');
 const fs = require('fs');                   //used for file reading
 const request = require('request');         //module used for making GET reqeusts for status code response
 const chalk = require('chalk');             //module used for output colors
@@ -11,7 +12,7 @@ if (process.env.CLICOLOR == 0) {              //disable chalk if CLICOLOR env va
 }
 
 if (args.length == 0) {                       //displaying parameter options if no parameter is used
-    missingParams();
+    displayMessage.missingParams();
     return process.exit(0);
 }
 
@@ -19,7 +20,7 @@ var filter = "--all";                       //default filter
 
 if (args[0].startsWith("--") || args[0].startsWith("/")) {
     if (args[0] === "--v" || args[0] === "--version" || args[0] === "/v" || args[0] === "/version") {
-        version();
+        displayMessage.version();
     } else if (args[0] === "--good" || args[0] === "--bad" || args[0] === "--all" || args[0] === "/good" || args[0] === "/bad" || args[0] === "/all") {                                                      //if first argument is not a tool parameter(ie. starts with -- or /), assume it's a file name
         filter = args[0];
         args.shift();
@@ -27,12 +28,12 @@ if (args[0].startsWith("--") || args[0].startsWith("/")) {
             displayUrl(arg, filter);
         })
     }
-    else if (args[0] == "--ignore" || args[0] == "--i" || args[0] == "/ignore" || args[0] == "/i") {
+    else if (args[0] === "--ignore" || args[0] === "--i" || args[0] === "/ignore" || args[0] === "/i") {
         args.shift();
         getIgnore(args, filter);
     }
     else {
-        unknownArg();
+        displayMessage.unknownArg();
     }
 } else {
     args.map(arg => {
@@ -111,7 +112,7 @@ function getIgnore(args, filterKey){
                         i++;
                     }
                     else if (!e.startsWith('#') && e != "") {
-                        badIgnore();
+                        displayMessage.badIgnore();
                     }
                 })
                 resolve(ignore);
@@ -119,38 +120,11 @@ function getIgnore(args, filterKey){
         });
     })
 
-    promise.then(iList => {
+    promise.then(ignoreList => {
         args.shift();
         args.map(arg => {
-            displayUrl(arg, filterKey, iList);
+            displayUrl(arg, filterKey, ignoreList);
         })
     })
 
-}
-
-
-
-function version() {
-    console.log("App: Dead Link Checker");
-    console.log("Ver: 1.0.0");
-}
-
-function missingParams() {
-    console.log("Missing parameters:");
-    console.log("(-v, -version, /v, /version to check current version).");
-    console.log("(check FILENAME to test links in file.)");
-    console.log("Use --all, --good, --bad followed by file name(s) to filter the URLs")
-    console.log("Use --ignore or --i to take in Urls to ignore")
-}
-
-function unknownArg() {
-    console.log("Invalid Command");
-    console.log("Use --v to check for the current version of app")
-    console.log("Use --all, --good, --bad followed by file name(s) to filter the URLs")
-    console.log("Use --ignore or --i to take in Urls to ignore")
-}
-
-function badIgnore(){
-    console.log(chalk.red("Ignore file contains Invalid lines, make sure each line starts with https/http or #"));
-    process.exit(1);
 }
