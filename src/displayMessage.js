@@ -1,9 +1,9 @@
-let version = function () {
+const version = function () {
   console.log('App: Dead Link Checker');
   console.log('Ver: 1.0.0');
 };
 
-let missingParams = function () {
+const missingParams = function () {
   console.log('Missing parameters:');
   console.log('(-v, -version, /v, /version to check current version).');
   console.log('(check FILENAME to test links in file.)');
@@ -14,7 +14,7 @@ let missingParams = function () {
   return process.exit(0); /* global process */
 };
 
-let unknownArg = function () {
+const unknownArg = function () {
   console.log('Invalid Command');
   console.log('Use --v to check for the current version of app');
   console.log(
@@ -23,7 +23,7 @@ let unknownArg = function () {
   console.log('Use --ignore or --i to take in Urls to ignore');
 };
 
-let badIgnore = function () {
+const badIgnore = function () {
   console.log(
     'Ignore file contains Invalid lines, make sure each line starts with https/http or #'
   );
@@ -31,9 +31,7 @@ let badIgnore = function () {
 };
 
 /* global module */
-module.exports = {
-  version: version,
-  missingParams: missingParams,
-  unknownArg: unknownArg,
-  badIgnore: badIgnore,
-};
+module.exports.version = version;
+module.exports.missingParams = missingParams;
+module.exports.unknownArg = unknownArg;
+module.exports.badIgnore = badIgnore;

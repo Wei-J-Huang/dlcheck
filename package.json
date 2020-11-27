@@ -5,7 +5,8 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "coverage": "jest --collectCoverage --"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,8 @@
   },
   "devDependencies": {
     "eslint": "^7.13.0",
+    "jest": "^26.6.3",
+    "nock": "^13.0.5",
     "prettier": "2.1.2"
   }
 }

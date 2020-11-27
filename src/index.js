@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 /* global require */
 require('dotenv').config();
-let displayMessage = require('./displayMessage.js');
+const {
+  version,
+  missingParams,
+  unknownArg,
+  badIgnore,
+} = require('./displayMessage.js');
+const { validProtocol, validComment } = require('./validate');
+const { requestUrl } = require('./makeRequest');
 const fs = require('fs'); //used for file reading
 const request = require('request'); //module used for making GET reqeusts for status code response
 const chalk = require('chalk'); //module used for output colors
@@ -18,7 +25,7 @@ if (process.env.CLICOLOR == 0) {
 
 if (args.length == 0) {
   //displaying parameter options if no parameter is used
-  displayMessage.missingParams();
+  missingParams();
 }
 
 var filter = '--all'; //default filter
@@ -30,7 +37,7 @@ if (args[0].startsWith('--') || args[0].startsWith('/')) {
     args[0] === '/v' ||
     args[0] === '/version'
   ) {
-    displayMessage.version();
+    version();
   } else if (
     args[0] === '--good' ||
     args[0] === '--bad' ||
@@ -54,7 +61,7 @@ if (args[0].startsWith('--') || args[0].startsWith('/')) {
     args.shift();
     getIgnore(args, filter);
   } else {
-    displayMessage.unknownArg();
+    unknownArg();
   }
 } else {
   args.map((arg) => {
@@ -82,37 +89,25 @@ function displayUrl(file, filterKey, ignore = []) {
           }
         });
         if (pass) {
-          request.get(
-            {
-              uri: links[i],
-              agent: false,
-              pool: { maxSockets: 300 },
-              timeout: 10000,
-            },
-            function (error, response) {
-              //making get request
+          requestUrl(links[i])
+            .then((statusCode) => {
               if (filterKey === '--all' || filterKey === '/all') {
                 //filter by all
-                if (error) {
-                  console.log(chalk.blue(links[i] + ' ' + error.message));
-                } else if (response.statusCode == 200) {
+                if (statusCode == 200) {
                   console.log(
                     chalk.green(
                       links[i] +
                         ' [status code: ' +
-                        response.statusCode +
+                        statusCode +
                         '], server is online.'
                     )
                   );
-                } else if (
-                  response.statusCode == 400 ||
-                  response.statusCode == 404
-                ) {
+                } else if (statusCode == 400 || statusCode == 404) {
                   console.log(
                     chalk.red(
                       links[i] +
                         ' [status code: ' +
-                        response.statusCode +
+                        statusCode +
                         '], this is a broken link.'
                     )
                   );
@@ -121,41 +116,40 @@ function displayUrl(file, filterKey, ignore = []) {
                     chalk.gray(
                       links[i] +
                         ' [status code: ' +
-                        response.statusCode +
+                        statusCode +
                         '], status is unknown.'
                     )
                   );
                 }
               } else if (filterKey === '--good' || filterKey === '/good') {
                 //filter by good links
-                if (!error && response.statusCode == 200) {
+                if (statusCode == 200) {
                   console.log(
                     chalk.green(
                       links[i] +
                         ' [status code: ' +
-                        response.statusCode +
+                        statusCode +
                         '], server is online.'
                     )
                   );
                 }
               } else if (filterKey === '--bad' || filterKey === '/bad') {
                 //filter by bad links
-                if (
-                  !error &&
-                  (response.statusCode == 400 || response.statusCode == 404)
-                ) {
+                if (statusCode == 400 || statusCode == 404) {
                   console.log(
                     chalk.red(
                       links[i] +
                         ' [status code: ' +
-                        response.statusCode +
+                        statusCode +
                         '], this is a broken link.'
                     )
                   );
                 }
               }
-            }
-          );
+            })
+            .catch((error) => {
+              console.log(chalk.blue(links[i] + ' ' + error));
+            });
         } else {
           pass = true;
         }
@@ -175,11 +169,11 @@ function getIgnore(args, filterKey) {
         var ignore = [];
         var i = 0;
         ignoreList.forEach((e) => {
-          if (e.startsWith('https://') || e.startsWith('http://')) {
+          if (validProtocol(e)) {
             ignore[i] = e.replace(/(\r\n|\n|\r)/gm, '');
             i++;
-          } else if (!e.startsWith('#') && e != '') {
-            displayMessage.badIgnore();
+          } else if (!validComment) {
+            badIgnore();
           }
         });
         resolve(ignore);
