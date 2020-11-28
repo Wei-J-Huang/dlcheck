@@ -14,3 +14,6 @@ This project uses ESLint to check the code quality, to check for syntax errors/t
 
 # Prettier & ESLint VS Code Intergration:
 To utilize Prettier and ESLint for this project, simply install the Prettier & ESLint extensions in VS Code and use the pre-configured files included in the project.
+
+# Information about tests:
+This project uses Jest test code functionalities, to run the existing tests, run the command ```npm run test```, to check the code coverage of the tests, run the command ```npm run coverage```. Consider to run the tests locally before trying to send in the updates. If you are adding new functionalities, please try to write some test to cover different cases.
