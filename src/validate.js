@@ -6,7 +6,7 @@ function validProtocol(link) {
 }
 
 function validComment(fileLine) {
-  if (fileLine.startsWith('#') && fileLine != '') {
+  if (!fileLine.startsWith('#') && fileLine != '') {
     return true;
   }
   return false;
