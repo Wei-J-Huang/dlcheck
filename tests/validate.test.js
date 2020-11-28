@@ -1,4 +1,4 @@
-const { validProtocol, validComment } = require('./validate');
+const { validProtocol, validComment } = require('../src/validate');
 
 describe('ignore url tests', () => {
   test('url with http or https protocol should return true', () => {

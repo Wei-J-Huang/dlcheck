@@ -1,5 +1,5 @@
 const nock = require('nock');
-const { requestUrl } = require('./makeRequest');
+const { requestUrl } = require('../src/makeRequest');
 
 describe('makeRequest tests', () => {
   test('active servers should respond with status code of 200', () => {
