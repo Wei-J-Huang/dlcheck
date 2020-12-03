@@ -12,5 +12,6 @@ function validComment(fileLine) {
   return false;
 }
 
+/* global module */
 module.exports.validProtocol = validProtocol;
 module.exports.validComment = validComment;

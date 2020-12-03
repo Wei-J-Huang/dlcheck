@@ -1,3 +1,4 @@
+/* global require */
 const request = require('request'); //module used for making GET reqeusts for status code response
 
 function requestUrl(url) {
@@ -17,4 +18,5 @@ function requestUrl(url) {
   });
 }
 
+/* global module */
 module.exports.requestUrl = requestUrl;

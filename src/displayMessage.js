@@ -1,6 +1,9 @@
+/* global require */
+var packageJson = require('../package.json');
+
 const version = function () {
   console.log('App: Dead Link Checker');
-  console.log('Ver: 1.0.0');
+  console.log('Ver: ' + packageJson.version);
 };
 
 const missingParams = function () {

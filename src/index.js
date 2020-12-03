@@ -10,7 +10,6 @@ const {
 const { validProtocol, validComment } = require('./validate');
 const { requestUrl } = require('./makeRequest');
 const fs = require('fs'); //used for file reading
-const request = require('request'); //module used for making GET reqeusts for status code response
 const chalk = require('chalk'); //module used for output colors
 const args = process.argv.slice(2); //using slice function to get rid of the 2 default args
 const urlRegex = new RegExp(
